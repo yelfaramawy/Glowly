@@ -10,12 +10,13 @@ const productSchema = mongoose.Schema({
   category: {
     type: String,
     enum: [
-      'Sunglasses',
-      'Watches',
-      'Hats & Caps',
-      'Jewelery',
-      'Wallets',
-      'Grooming',
+      'sunglasses',
+      'watches',
+      'hats',
+      'jewelery',
+      'wallets',
+      'grooming',
+      'perfumes',
     ],
     required: [true, 'Please provide a product price'],
   },
@@ -36,10 +37,6 @@ const productSchema = mongoose.Schema({
       },
       message: 'Only 10 images is allowed for a product',
     },
-  },
-  available: {
-    type: Boolean,
-    default: true,
   },
   available: {
     type: Boolean,

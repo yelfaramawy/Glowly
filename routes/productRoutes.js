@@ -13,6 +13,8 @@ router
     productController.createProduct
   );
 
+router.get('/category/:categoryName', productController.getProductsByCategory);
+
 router
   .route('/:id')
   .get(productController.getProduct)

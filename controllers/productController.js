@@ -55,6 +55,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
     },
   });
 });
+
 exports.deleteProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findByIdAndDelete(req.params.id);
 
@@ -63,5 +64,21 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+  });
+});
+
+exports.getProductsByCategory = catchAsync(async (req, res, next) => {
+  const products = await Product.find({
+    category: req.params.categoryName.toLowerCase(),
+  });
+
+  if (!products) return next(new AppError('No products found', 404));
+
+  res.status(200).json({
+    status: 'success',
+    results: products.length,
+    data: {
+      products,
+    },
   });
 });
