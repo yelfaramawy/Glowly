@@ -18,6 +18,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+    results: products.length,
     data: {
       products,
     },
@@ -25,7 +26,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 });
 
 exports.getProduct = catchAsync(async (req, res, next) => {
-  const product = await Productroduct.findById(req.params.id);
+  const product = await Product.findById(req.params.id);
 
   if (!product)
     return next(new AppError('There is no Product with that ID', 404));
@@ -39,7 +40,7 @@ exports.getProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findByIdandUpdate(req.params.id, req.body, {
+  const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   });
@@ -55,7 +56,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
   });
 });
 exports.deleteProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findByIdandDelete(req.params.id);
+  const product = await Product.findByIdAndDelete(req.params.id);
 
   if (!product)
     return next(new AppError('There is no product with that ID', 404));

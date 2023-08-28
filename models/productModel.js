@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const productSchema = mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please provide a product name'],
   },
+  slug: String,
   category: {
     type: String,
     enum: [
@@ -51,6 +53,28 @@ const productSchema = mongoose.Schema({
     type: Number,
     required: [true, 'Please enter the quantity available in stock'],
   },
+});
+
+// Create product slug
+// productSchema.pre('save', function (next) {
+//   // const cleanName = this.name.replace(/[^a-zA-Z0-9]/g, '');
+//   const cleanName = this.name.replace(/[^a-zA-Z0-9\s]/g, '');
+//   this.slug = slugify(this.name, {
+//     lower: true,
+//     // remove: /[^a-zA-Z0-9-]/g,
+//     // replacement: '',
+//   });
+//   next();
+// });
+
+productSchema.pre('save', function (next) {
+  const modifiedName = this.name.replace(/[^a-zA-Z0-9\s-]/g, ''); // Include "@" and "."
+  console.log(modifiedName);
+  this.slug = slugify(modifiedName, {
+    lower: true,
+    replacement: '-',
+  });
+  next();
 });
 
 const Product = mongoose.model('Product', productSchema);
