@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const morgan = require('morgan');
 
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
@@ -9,11 +10,16 @@ const orderRouter = require('./routes/orderRoutes.js');
 
 const app = express();
 
+// Set public path
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Parse request body
 app.use(express.json({ limit: '10kb' }));
 
-// Set public path
-app.use(express.static(path.join(__dirname, 'public')));
+// Log incoming requests in development
+if ((process.env.NODE_ENV = 'development')) {
+  app.use(morgan('dev'));
+}
 
 // app.use("/", userRouter);
 app.use('/api/v1/users', userRouter);

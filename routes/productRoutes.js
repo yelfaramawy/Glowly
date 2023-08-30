@@ -14,6 +14,12 @@ router
   );
 
 router.get('/category/:categoryName', productController.getProductsByCategory);
+router.post(
+  '/sale/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  productController.applySale
+);
 
 router
   .route('/:id')

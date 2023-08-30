@@ -5,6 +5,7 @@ const productSchema = mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please provide a product name'],
+    unique: true,
   },
   slug: String,
   category: {
@@ -24,6 +25,13 @@ const productSchema = mongoose.Schema({
     type: Number,
     required: [true, 'Please provide a product price'],
   },
+  salePercentage: {
+    type: Number,
+    min: 0,
+    max: 100,
+    default: 0,
+  },
+  previousPrice: Number,
   description: {
     type: String,
     required: [true, 'Please provide a product description'],
@@ -50,27 +58,49 @@ const productSchema = mongoose.Schema({
     type: Number,
     required: [true, 'Please enter the quantity available in stock'],
   },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+    select: false,
+  },
 });
 
 // Create product slug
-// productSchema.pre('save', function (next) {
-//   // const cleanName = this.name.replace(/[^a-zA-Z0-9]/g, '');
-//   const cleanName = this.name.replace(/[^a-zA-Z0-9\s]/g, '');
-//   this.slug = slugify(this.name, {
-//     lower: true,
-//     // remove: /[^a-zA-Z0-9-]/g,
-//     // replacement: '',
-//   });
-//   next();
-// });
-
 productSchema.pre('save', function (next) {
-  const modifiedName = this.name.replace(/[^a-zA-Z0-9\s-]/g, ''); // Include "@" and "."
+  const modifiedName = this.name.replace(/[^a-zA-Z0-9\s-]/g, '');
   console.log(modifiedName);
   this.slug = slugify(modifiedName, {
     lower: true,
     replacement: '-',
   });
+  next();
+});
+
+// Calculate sale price, If there's a sale
+productSchema.pre('save', function (next) {
+  console.log('Percentage changed!!');
+  if (this.isModified('salePercentage')) {
+    this.previousPrice = this.price;
+    this.price = this.price - (this.price * this.salePercentage) / 100;
+  }
+  next();
+});
+
+// productSchema.methods.updatePrice = function(){
+//   if(this.productSchema)
+// }
+
+productSchema.pre('update', function (next) {
+  // const pricePercentage = this.getUpdate().$set.pricePercentage;
+  // console.log('percentage changed');
+  // console.log(pricePercentage);
+  // if (!pricePercentage) return next();
+  // this.price = this.price - (this.price * this.pricePercentage) / 100;
+  if (this.isModified('salePercentage')) {
+    this.previousPrice = this.price;
+    this.price = this.price - (this.price * this.salePercentage) / 100;
+    // this.price = undefined;
+  }
   next();
 });
 
