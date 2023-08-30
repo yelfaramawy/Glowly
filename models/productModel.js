@@ -31,7 +31,7 @@ const productSchema = mongoose.Schema({
     max: 100,
     default: 0,
   },
-  previousPrice: Number,
+  originalPrice: Number,
   description: {
     type: String,
     required: [true, 'Please provide a product description'],
@@ -76,30 +76,12 @@ productSchema.pre('save', function (next) {
   next();
 });
 
-// Calculate sale price, If there's a sale
 productSchema.pre('save', function (next) {
-  console.log('Percentage changed!!');
-  if (this.isModified('salePercentage')) {
-    this.previousPrice = this.price;
-    this.price = this.price - (this.price * this.salePercentage) / 100;
-  }
-  next();
-});
-
-// productSchema.methods.updatePrice = function(){
-//   if(this.productSchema)
-// }
-
-productSchema.pre('update', function (next) {
-  // const pricePercentage = this.getUpdate().$set.pricePercentage;
-  // console.log('percentage changed');
-  // console.log(pricePercentage);
-  // if (!pricePercentage) return next();
-  // this.price = this.price - (this.price * this.pricePercentage) / 100;
-  if (this.isModified('salePercentage')) {
-    this.previousPrice = this.price;
-    this.price = this.price - (this.price * this.salePercentage) / 100;
-    // this.price = undefined;
+  if (
+    // this.isModified('price') ||
+    this.isNew
+  ) {
+    this.originalPrice = this.price;
   }
   next();
 });

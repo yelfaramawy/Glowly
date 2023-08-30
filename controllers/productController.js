@@ -40,10 +40,31 @@ exports.getProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
+  // Specify product updates from the request body
+  const { name, category, description, image, soldOut, inStock } = req.body;
+  const productUpdates = {
+    name,
+    category,
+    description,
+    image,
+    soldOut,
+    inStock,
+  };
+  // product updates if there is a change in price
+  if (req.body.price) {
+    const newPrice = req.body.price;
+    productUpdates.price = newPrice;
+    productUpdates.originalPrice = newPrice;
+    productUpdates.salePercentage = 0;
+  }
+  const product = await Product.findByIdAndUpdate(
+    req.params.id,
+    productUpdates,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
   if (!product)
     return next(new AppError('There is no product with that ID', 404));
@@ -64,8 +85,8 @@ exports.applySale = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no product with this ID', 404));
 
   product.salePercentage = salePercentage;
-  product.previousPrice = product.price;
-  product.price = product.price - (product.price * salePercentage) / 100;
+  product.price =
+    product.originalPrice - (product.originalPrice * salePercentage) / 100;
 
   await product.save();
   res.status(200).json({
