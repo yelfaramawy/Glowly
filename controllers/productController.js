@@ -79,7 +79,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 
 exports.applySale = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
-  const salePercentage = req.body.salePercentage;
+  const { salePercentage } = req.body;
 
   if (!product)
     return next(new AppError('There is no product with this ID', 404));
