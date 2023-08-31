@@ -77,7 +77,7 @@ productSchema.pre('save', function (next) {
 });
 
 productSchema.pre('save', function (next) {
-  if (this.isModified('price') || this.isNew) {
+  if (this.isNew) {
     this.originalPrice = this.price;
   }
   next();

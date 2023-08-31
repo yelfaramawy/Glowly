@@ -12,7 +12,7 @@ class APIFEeatures {
     excludedFields.forEach((el) => delete queryObj[el]);
 
     // 1B) Advanced filtering add $ to operators
-    let queryStr = JSON.stringify(query);
+    let queryStr = JSON.stringify(queryObj);
     queryStr.replace(/\b(gt|gte|lte|lt)\b/g, (match) => `$${match}`);
 
     this.query = this.query.find(JSON.parse(queryStr));
@@ -48,3 +48,5 @@ class APIFEeatures {
     return this;
   }
 }
+
+module.exports = APIFEeatures;
