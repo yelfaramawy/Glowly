@@ -53,9 +53,11 @@ class APIFEeatures {
   // }
 
   search() {
-    const searchString = this.queryString.name.split('+').join(' ');
-    const searchRegExp = new RegExp(searchString, 'i');
-    this.query = this.query.find({ name: searchRegExp });
+    if (this.queryString.name) {
+      const searchString = this.queryString.name.split('+').join(' ');
+      const searchRegExp = new RegExp(searchString, 'i');
+      this.query = this.query.find({ name: searchRegExp });
+    }
     return this;
   }
 }

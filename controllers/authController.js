@@ -3,6 +3,7 @@ const { promisify } = require('util');
 const catchAsync = require('../utils/catchAsync');
 const User = require('../models/userModel');
 const AppError = require('../utils/AppError');
+const Cart = require('../models/cartModel');
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -38,6 +39,9 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
     address: req.body.address,
   });
+
+  // Create cart for the new user
+  await Cart.create({ user: newUser._id });
 
   createSendToken(newUser, 201, res);
 });
@@ -89,7 +93,7 @@ exports.protect = catchAsync(async (req, res, next) => {
       new AppError('The user belonging to this token is no longer exist.', 401)
     );
 
-  // TO DO: CHECK IF THE USER CHANGED HIS PASSWORD
+  //TODO TO DO: CHECK IF THE USER CHANGED HIS PASSWORD
 
   // Give user access to protected routes
   req.user = currentUser;
@@ -106,7 +110,7 @@ exports.restrictTo = (...roles) => {
   };
 };
 
-// TO DO WORK: FORGOT PASSWORD RESET PASSWORD - UPDATE PASSWORD
+//TODO WORK: FORGOT PASSWORD RESET PASSWORD - UPDATE PASSWORD
 exports.forgotPassword = catchAsync(async (req, res, next) => {});
 exports.resetPassword = catchAsync(async (req, res, next) => {});
 exports.updatePassword = catchAsync(async (req, res, next) => {});

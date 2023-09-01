@@ -9,18 +9,30 @@ const cartSchema = mongoose.Schema({
   },
   items: [
     {
-      Product: {
+      product: {
         type: mongoose.Schema.ObjectId,
         ref: 'Product',
-        required: [true, 'A cart must have a product'],
+        // required: [true, 'A cart must have a product'],
       },
       quantity: {
         type: Number,
-        required: [true, 'A product must have a quantity'],
         min: 1,
+        default: 1,
       },
     },
   ],
+  totalPrice: {
+    type: Number,
+    default: 0,
+  },
+});
+
+cartSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'items.product',
+    select: 'name price',
+  });
+  next();
 });
 
 const Cart = mongoose.model('Cart', cartSchema);

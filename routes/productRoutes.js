@@ -13,16 +13,26 @@ router
     productController.createProduct
   );
 
+router.get(
+  '/top-sales',
+  productController.getTopSales,
+  productController.getAllProducts
+);
+router.get(
+  '/most-popular',
+  productController.getMostPopular,
+  productController.getAllProducts
+);
 router.get('/category/:categoryName', productController.getProductsByCategory);
 router.post(
-  '/sale/:id',
+  '/sale/:productId',
   authController.protect,
   authController.restrictTo('admin'),
   productController.applySale
 );
 
 router
-  .route('/:id')
+  .route('/:productId')
   .get(productController.getProduct)
   .patch(
     authController.protect,

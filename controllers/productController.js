@@ -34,7 +34,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 });
 
 exports.getProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.productId);
 
   if (!product)
     return next(new AppError('There is no Product with that ID', 404));
@@ -87,7 +87,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.applySale = catchAsync(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.productId);
   const { salePercentage } = req.body;
 
   if (!product)
@@ -106,17 +106,6 @@ exports.applySale = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findByIdAndDelete(req.params.id);
-
-  if (!product)
-    return next(new AppError('There is no product with that ID', 404));
-
-  res.status(200).json({
-    status: 'success',
-  });
-});
-
 exports.getProductsByCategory = catchAsync(async (req, res, next) => {
   const products = await Product.find({
     category: req.params.categoryName,
@@ -130,5 +119,35 @@ exports.getProductsByCategory = catchAsync(async (req, res, next) => {
     data: {
       products,
     },
+  });
+});
+// TO DO:
+//*TODO: make this sort by rating average
+exports.getTopSales = catchAsync(async (req, res, next) => {
+  req.query.limit = 10;
+  req.query.sort = '-salePercentage,price';
+  req.query.fields =
+    'name,price,salePercentage,originalPrice,description,inStock';
+
+  next();
+});
+
+exports.getMostPopular = catchAsync(async (req, res, next) => {
+  req.query.limit = 10;
+  req.query.sort = '-soldOut';
+  req.query.fields =
+    'name,price,salePercentage,originalPrice,description,inStock';
+
+  next();
+});
+
+exports.deleteProduct = catchAsync(async (req, res, next) => {
+  const product = await Product.findByIdAndDelete(req.params.id);
+
+  if (!product)
+    return next(new AppError('There is no product with that ID', 404));
+
+  res.status(200).json({
+    status: 'success',
   });
 });

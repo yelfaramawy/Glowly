@@ -1,9 +1,13 @@
+const Cart = require('../models/cartModel');
 const User = require('../models/userModel');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.createUser = catchAsync(async (req, res, next) => {
   const user = await User.create(req.body);
+
+  // Create Cart for the new user
+  await Cart.create(user._id);
 
   res.status(201).json({
     status: 'success',
@@ -50,8 +54,9 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndDelete(req.params.id);
   if (!user) return next(new AppError('There is no user with this ID', 400));
 
+  await Cart.findOneAndDelete({ user: req.params.id });
+
   res.status(200).json({
     status: 'success',
-    data: { user },
   });
 });
