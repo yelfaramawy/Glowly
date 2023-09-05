@@ -33,8 +33,15 @@ const userSchema = mongoose.Schema({
     default: 'user',
   },
   // TO BE REFERENCED LATER
-  orders: Array,
-  cart: Array,
+  cart: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Cart',
+  },
+  orders: [
+    {
+      type: mongoose.Schema.ObjectId,
+    },
+  ],
   password: {
     type: String,
     minlength: 8,
