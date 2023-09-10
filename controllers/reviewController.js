@@ -4,25 +4,29 @@ const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.createReview = catchAsync(async (req, res, next) => {
-  // Check if the user has already purchased the product
-  const validOrder = await Order.findOne({
-    user: req.user.id,
-    items: { $elemMatch: { product: req.body.product } },
-    status: { $in: ['shipped', 'refunded'] },
-  });
+  if (!req.body.product) req.body.product = req.params.productId;
+  if (!req.body.user) req.body.user = req.user.id;
 
-  if (!validOrder)
-    return next(
-      new AppError('You can only review orders you already purchased', 400)
-    );
+  // Check if the user has already purchased the product (NEW FEATURE)
+  // const validOrder = await Order.findOne({
+  //   user: req.user.id,
+  //   items: { $elemMatch: { product: req.body.product } },
+  //   status: { $in: ['shipped', 'refunded'] },
+  // });
+
+  // if (!validOrder)
+  //   return next(
+  //     new AppError('You can only review orders you already purchased', 400)
+  //   );
 
   // Create the review
-  const review = await Review.create({
-    user: req.user.id,
-    product: req.body.product,
-    rating: req.body.rating,
-    review: req.body.review,
-  });
+  const review = await Review.create(req.body);
+  // const review = await Review.create({
+  //   user: req.user.id,
+  //   product: req.body.product,
+  //   rating: req.body.rating,
+  //   review: req.body.review,
+  // });
 
   res.status(200).json({
     status: 'success',
@@ -33,7 +37,9 @@ exports.createReview = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllReviews = catchAsync(async (req, res, next) => {
-  const reviews = await Review.find();
+  let filter = {};
+  if (req.params.productId) filter = { product: req.params.productId };
+  const reviews = await Review.find(filter);
 
   if (reviews.length === 0) return next(new AppError('No reviews found', 404));
 
