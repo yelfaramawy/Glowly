@@ -33,9 +33,6 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     // status
   });
 
-  console.log(order.user);
-  console.log(order.user.id);
-  console.log(order.user._id);
   // Clear the cart again
   cart.items = [];
   cart.totalPrice = 0;
@@ -127,6 +124,29 @@ exports.updateOrderStatus = catchAsync(async (req, res, next) => {
   );
 
   if (!order) return next(new AppError('There is no order with that ID', 404));
+
+  // Update in stock items
+  if (req.body.status === 'processing') {
+    for (const item of order.items) {
+      const product = await Product.findById(item.product);
+      if (product) {
+        product.inStock -= item.quantity;
+        product.soldOut += item.quantity;
+        product.available = product.inStock > 0;
+        await product.save();
+      }
+    }
+  } else if (req.body.status === 'refunded') {
+    for (const item of order.items) {
+      const product = await Product.findById(items.product);
+      if (product) {
+        product.inStock += item.quantity;
+        product.inStock -= item.quantity;
+        product.available = product.inStock > 0;
+        await product.save();
+      }
+    }
+  }
 
   res.status(200).json({
     status: 'success',

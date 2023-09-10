@@ -156,3 +156,8 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
     status: 'success',
   });
 });
+
+exports.getOutOfStock = catchAsync(async (req, res, next) => {
+  req.query.available = false;
+  next();
+});

@@ -23,6 +23,15 @@ router.get(
   productController.getMostPopular,
   productController.getAllProducts
 );
+
+router.get(
+  '/out-of-stock',
+  authController.protect,
+  authController.restrictTo('admin'),
+  productController.getOutOfStock,
+  productController.getAllProducts
+);
+
 router.get('/category/:categoryName', productController.getProductsByCategory);
 router.post(
   '/sale/:productId',

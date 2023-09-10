@@ -86,6 +86,12 @@ productSchema.virtual('reviews', {
   localField: '_id',
 });
 
+// Unshow out of stock products
+// productSchema.pre(/^find/, function (next) {
+//   this.find({ available: { $ne: false } });
+//   next();
+// });
+
 // Create product slug
 productSchema.pre('save', function (next) {
   const modifiedName = this.name.replace(/[^a-zA-Z0-9\s-]/g, '');

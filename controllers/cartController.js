@@ -26,6 +26,7 @@ exports.addToCart = catchAsync(async (req, res, next) => {
     );
 
   // Check if the item is already in cart
+  console.log(cart);
   const itemIndex = cart.items.findIndex(
     (item) => item.product.id === req.body.productId
   );
