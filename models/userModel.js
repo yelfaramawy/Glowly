@@ -40,6 +40,7 @@ const userSchema = mongoose.Schema({
   orders: [
     {
       type: mongoose.Schema.ObjectId,
+      ref: 'Order',
     },
   ],
   password: {

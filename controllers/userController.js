@@ -1,6 +1,7 @@
 const Cart = require('../models/cartModel');
 const User = require('../models/userModel');
 const AppError = require('../utils/AppError');
+const APIFEeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 
 exports.createUser = catchAsync(async (req, res, next) => {
@@ -16,8 +17,14 @@ exports.createUser = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
-  //   if (!users) return next(new AppError('There is no user with this ID', 400));
+  const features = new APIFEeatures(User.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate()
+    .search();
+  const users = await features.query;
+  if (users.length === 0) return next(new AppError('No users found', 404));
 
   res.status(200).json({
     status: 'success',

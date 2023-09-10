@@ -55,8 +55,6 @@ exports.getMyOrders = catchAsync(async (req, res, next) => {
   if (orders.length === 0)
     return next(new AppError("You don't have any orders yet", 400));
 
-  console.log(req.user.id);
-  console.log(req.user._id);
   res.status(200).json({
     status: 'success',
     results: orders.length,

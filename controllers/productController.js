@@ -24,6 +24,9 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 
   const products = await features.query;
 
+  if (products.length === 0)
+    return next(new AppError('No products found', 404));
+
   res.status(200).json({
     status: 'success',
     results: products.length,
@@ -34,7 +37,9 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 });
 
 exports.getProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findById(req.params.productId);
+  const product = await Product.findById(req.params.productId).populate(
+    'reviews'
+  );
 
   if (!product)
     return next(new AppError('There is no Product with that ID', 404));

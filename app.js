@@ -7,6 +7,7 @@ const userRouter = require('./routes/userRoutes');
 const productRouter = require('./routes/productRoutes.js');
 const cartRouter = require('./routes/cartRoutes.js');
 const orderRouter = require('./routes/orderRoutes.js');
+const reviewRouter = require('./routes/reviewRoutes.js');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/carts', cartRouter);
 app.use('/api/v1/orders', orderRouter);
+app.use('/api/v1/reviews', reviewRouter);
 
 app.use(globalErrorHandler);
 
