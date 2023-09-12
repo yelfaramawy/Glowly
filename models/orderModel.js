@@ -61,6 +61,8 @@ const orderSchema = mongoose.Schema({
   },
 });
 
+orderSchema.index({ user: 1 });
+
 orderSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'items.product',

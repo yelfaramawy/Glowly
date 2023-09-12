@@ -79,6 +79,8 @@ const productSchema = mongoose.Schema(
   }
 );
 
+productSchema.index({ price: 1, category: 1 }, { unique: false });
+
 // Virtual populate reviews on products
 productSchema.virtual('reviews', {
   ref: 'Review',

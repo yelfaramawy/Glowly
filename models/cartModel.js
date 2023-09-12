@@ -35,6 +35,8 @@ cartSchema.pre(/^find/, function (next) {
   next();
 });
 
+cartSchema.index({ user: 1 }, { unique: true });
+
 const Cart = mongoose.model('Cart', cartSchema);
 
 module.exports = Cart;
