@@ -7,17 +7,17 @@ exports.createReview = catchAsync(async (req, res, next) => {
   if (!req.body.product) req.body.product = req.params.productId;
   if (!req.body.user) req.body.user = req.user.id;
 
-  // Check if the user has already purchased the product (NEW FEATURE)
-  const validOrder = await Order.findOne({
-    user: req.user.id,
-    items: { $elemMatch: { product: req.body.product } },
-    status: { $in: ['shipped', 'refunded'] },
-  });
+  // // Check if the user has already purchased the product (NEW FEATURE)
+  // const validOrder = await Order.findOne({
+  //   user: req.user.id,
+  //   items: { $elemMatch: { product: req.body.product } },
+  //   status: { $in: ['shipped', 'refunded'] },
+  // });
 
-  if (!validOrder)
-    return next(
-      new AppError('You can only review orders you already purchased', 400)
-    );
+  // if (!validOrder)
+  //   return next(
+  //     new AppError('You can only review orders you already purchased', 400)
+  //   );
 
   // Create the review
   const review = await Review.create(req.body);
