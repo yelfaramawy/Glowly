@@ -67,8 +67,13 @@ exports.getReview = catchAsync(async (req, res, next) => {
 });
 
 exports.updateReview = catchAsync(async (req, res, next) => {
-  const review = Review.findOneAndUpdate(
-    { _id: req.params.reviewId, user: req.user.id },
+  console.log(req.user);
+  console.log(req.user.id);
+  const review = await Review.findOneAndUpdate(
+    {
+      _id: req.params.reviewId,
+      //  user: req.user.id
+    },
     req.body,
     {
       runValidators: true,

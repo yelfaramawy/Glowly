@@ -59,17 +59,39 @@ reviewSchema.statics.calcAverageRatings = async function (productId) {
     },
   ]);
   console.log(stats);
+  console.log('Stats length: ', stats.length);
   // save the calculated rating to the product document
-  await Product.findByIdAndUpdate(productId, {
-    ratingsQuantity: stats[0].nRatings,
-    ratingsAverage: stats[0].avgRatings,
-  });
+
+  if (stats.length > 0) {
+    await Product.findByIdAndUpdate(productId, {
+      ratingsQuantity: stats[0].nRatings,
+      ratingsAverage: stats[0].avgRatings,
+    });
+  } else {
+    await Product.findByIdAndUpdate(productId, {
+      ratingsQuantity: 0,
+      ratingsAverage: 4.5,
+    });
+  }
 };
 
 reviewSchema.post('save', function () {
   // this refers to the document so we use this.constructor to get access to the model
   this.constructor.calcAverageRatings(this.product);
 });
+
+// Update review stats within update and delete queries
+// reviewSchema.pre(/^findOneAnd/, async function (next) {
+// this.r saves the review from the query middleware to this
+//   this.r = await this.findOne();
+//   console.log(this.r);
+//   next();
+// });
+
+// reviewSchema.post(/^findOneAnd/, async function () {
+//   const update = await this.r.constructor.calcAverageRatings(this.r.product);
+//   console.log(update);
+// });
 
 const Review = mongoose.model('Review', reviewSchema);
 

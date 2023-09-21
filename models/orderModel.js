@@ -57,7 +57,8 @@ const orderSchema = mongoose.Schema({
   paymentMethod: {
     type: String,
     enum: ['cash on delivery', 'card'],
-    default: 'cash on delivery',
+    required: [true, 'Please provide how do you like to pay'],
+    // default: 'cash on delivery',
   },
 });
 
