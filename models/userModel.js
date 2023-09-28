@@ -53,7 +53,7 @@ const userSchema = mongoose.Schema({
   passwordConfirm: {
     type: String,
     required: [true, 'Please confirm your password'],
-    // select: false,
+    select: false,
     validate: {
       validator: function (el) {
         return el === this.password;

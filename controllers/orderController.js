@@ -4,6 +4,7 @@ const Product = require('../models/productModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const APIFeatures = require('../utils/apiFeatures');
+const Payment = require('../models/paymentModel');
 
 exports.createOrder = catchAsync(async (req, res, next) => {
   const { phone, shippingAddress, paymentMethod, status } = req.body;
@@ -32,6 +33,17 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     paymentMethod,
     // status
   });
+
+  //? If the payment method is cash on delivery create payment document
+  if (order.paymentMethod === 'cash on delivery') {
+    const payment = await Payment.create({
+      user: req.user.id,
+      order: order.id,
+      paymentMethod: 'cash on delivery',
+      price: order.totalPrice,
+      paid: false,
+    });
+  }
 
   // Clear the cart again
   cart.items = [];
@@ -146,6 +158,24 @@ exports.updateOrderStatus = catchAsync(async (req, res, next) => {
         await product.save();
       }
     }
+  }
+
+  //? Update payment status if the order is shipped
+  if (
+    req.body.status === 'shipped' &&
+    order.paymentMethod === 'cash on delivery'
+  ) {
+    const payment = await Payment.findOneAndUpdate(
+      { order: order._id },
+      {
+        paid: true,
+      },
+      {
+        runValidators: true,
+        new: true,
+      }
+    );
+    console.log(payment);
   }
 
   res.status(200).json({
