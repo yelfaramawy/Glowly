@@ -1,7 +1,12 @@
-<!-- ![Glowly Logo](https://i.imgur.com/qhL5gOu.png) -->
-<div style="text-align: center;">
-<img src="https://i.imgur.com/qhL5gOu.png" alt="Glowly Logo" width="300" height="300">
-</div>
+<h1 align="center">Glowly</h1>
+<p align="center">
+  <img src="https://i.imgur.com/qhL5gOu.png" alt="Glowly Logo" width="200" height="200">
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js badge">
+  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express badge">
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB badge">
+</p>
 
 # Glowly E-Commerce Platform
 
@@ -16,7 +21,7 @@ Glowly is a feature-rich e-commerce platform built with Node.js and MongoDB, des
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 
-## Features 🚀
+## 🚀 Features
 
 - **User Authentication**: Secure user registration and login with hashed passwords and JSON Web Tokens (JWT).
 - **Product Management**: Admin can add, update, and delete products with various details like name, category, price, and more.
@@ -30,24 +35,24 @@ Glowly is a feature-rich e-commerce platform built with Node.js and MongoDB, des
 - **Payment Integration**: Seamless integration with Stripe for secure online payments.
 - **Admin Dashboard**: An intuitive dashboard for the admin to manage users, orders, products, and reviews with ease.
 
-## Installation 🛠️
+## 🛠️ Installation
 
 1. Clone the repository: `git clone https://github.com/yourusername/your-repo.git`
 2. Install dependencies: `npm install`
-3. Set up environment variables (e.g., MongoDB URI, PayMob API keys, etc.).
+3. Set up environment variables (e.g., MongoDB , Stripe API keys, etc.).
 4. Start the server: `npm start`
 
-## Usage 🌟
+## 🌟 Usage
 
 1. Register for an account or log in as an admin.
 2. Browse products, add to cart, and proceed to checkout.
 3. Manage products, orders, and reviews via the admin panel.
 
-## Endpoints 🛤️
+<!-- ## 🛤️ Endpoints  -->
 
 <!-- - [API Documentation](/docs/api.md) -->
 
-## Technologies Used 🧰
+## 🧰 Technologies Used
 
 - Node.js
 - Express.js
