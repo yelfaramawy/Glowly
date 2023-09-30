@@ -1,7 +1,12 @@
-<!-- ![Glowly Logo](https://i.imgur.com/qhL5gOu.png) -->
-<div style="display: flex; justify-content: center;">
-<img src="https://i.imgur.com/qhL5gOu.png" alt="Glowly Logo" width="300" height="300">
-</div>
+<h1 align="center">Glowly</h1>
+<p align="center">
+  <img src="https://i.imgur.com/qhL5gOu.png" alt="Glowly Logo" width="200" height="200">
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js badge">
+  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express badge">
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB badge">
+</p>
 
 # Glowly E-Commerce Platform
 
