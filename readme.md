@@ -11,7 +11,7 @@ Glowly is a feature-rich e-commerce platform built with Node.js and MongoDB, des
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 
-## Features
+## Features 🚀
 
 - **User Authentication**: Secure user registration and login with hashed passwords and JSON Web Tokens (JWT).
 - **Product Management**: Admin can add, update, and delete products with various details like name, category, price, and more.
@@ -23,25 +23,26 @@ Glowly is a feature-rich e-commerce platform built with Node.js and MongoDB, des
 - **Wishlist and Favorites**: Users can add products to their wishlist and mark products as favorites for future reference.
 - **Product Recommendations**: Provide bestselling product recommendations.
 - **Payment Integration**: Seamless integration with Stripe for secure online payments.
+- **Admin Dashboard**: An intuitive dashboard for the admin to manage users, orders, products, and reviews with ease.
 
-## Installation
+## Installation 🛠️
 
 1. Clone the repository: `git clone https://github.com/yourusername/your-repo.git`
 2. Install dependencies: `npm install`
 3. Set up environment variables (e.g., MongoDB URI, PayMob API keys, etc.).
 4. Start the server: `npm start`
 
-## Usage
+## Usage 🌟
 
 1. Register for an account or log in as an admin.
 2. Browse products, add to cart, and proceed to checkout.
 3. Manage products, orders, and reviews via the admin panel.
 
-## Endpoints
+## Endpoints 🛤️
 
 <!-- - [API Documentation](/docs/api.md) -->
 
-## Technologies Used
+## Technologies Used 🧰
 
 - Node.js
 - Express.js
@@ -50,6 +51,6 @@ Glowly is a feature-rich e-commerce platform built with Node.js and MongoDB, des
 - JWT (JSON Web Tokens)
 - Stripe for payment processing
 
-## Contributing
+## Contributing 🤝
 
 Contributions are welcome! If you find a bug or have a suggestion, please create an issue. Pull requests are also appreciated.
