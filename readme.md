@@ -1,4 +1,5 @@
-![Glowly Logo](https://i.imgur.com/qhL5gOu.png)
+<!-- ![Glowly Logo](https://i.imgur.com/qhL5gOu.png) -->
+<img src="https://url_to_your_logo.png" alt="Glowly Logo" width="100" height="100">
 
 # Glowly E-Commerce Platform
 
