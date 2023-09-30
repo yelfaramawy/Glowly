@@ -1,3 +1,5 @@
+![Glowly Logo](https://i.imgur.com/qhL5gOu.png)
+
 # Glowly E-Commerce Platform
 
 Glowly is a feature-rich e-commerce platform built with Node.js and MongoDB, designed to provide a seamless shopping experience for users.
