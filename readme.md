@@ -1,5 +1,5 @@
 <!-- ![Glowly Logo](https://i.imgur.com/qhL5gOu.png) -->
-<img src="(https://i.imgur.com/qhL5gOu.png" alt="Glowly Logo" width="100" height="100">
+<img src="https://i.imgur.com/qhL5gOu.png" alt="Glowly Logo" width="100" height="100">
 
 # Glowly E-Commerce Platform
 
