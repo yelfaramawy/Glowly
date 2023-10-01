@@ -28,6 +28,12 @@ router.get(
   productController.getAllProducts
 );
 
+router.get('/wishlist', authController.protect, productController.getWishlist);
+router
+  .route('/wishlist/:productId')
+  .post(authController.protect, productController.addToWishlist)
+  .delete(authController.protect, productController.removeFromWishlist);
+
 router.get(
   '/out-of-stock',
   authController.protect,

@@ -161,3 +161,58 @@ exports.getOutOfStock = catchAsync(async (req, res, next) => {
   req.query.available = false;
   next();
 });
+
+exports.addToWishlist = catchAsync(async (req, res, next) => {
+  const { user } = req;
+  const { productId } = req.params;
+
+  if (user.wishlist.includes(productId)) {
+    return next(new AppError('This item is already in your wishlist', 400));
+  }
+
+  const product = await Product.findById(productId);
+  if (!product)
+    return next(new AppError('There is no product with that ID', 404));
+
+  // if there is a product and not already in wishlist, add to wishlist
+  user.wishlist.push(productId);
+  await user.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      wishlist: user.wishlist,
+    },
+  });
+});
+
+exports.getWishlist = catchAsync(async (req, res, next) => {
+  const { user } = req;
+  await user.populate({
+    path: 'wishlist',
+    select: 'name price image',
+  });
+
+  res.status(200).json({
+    status: 'success',
+    results: user.wishlist.length,
+    data: {
+      wishlist: user.wishlist,
+    },
+  });
+});
+
+exports.removeFromWishlist = catchAsync(async (req, res, next) => {
+  const { user } = req;
+  const { productId } = req.params;
+  if (!user.wishlist.includes(productId)) {
+    return next(new AppError('This item is not in your wishlist', 400));
+  }
+
+  user.wishlist = user.wishlist.filter((id) => id.toString() !== productId);
+  await user.save();
+
+  res.status(200).json({
+    status: 'success',
+  });
+});
