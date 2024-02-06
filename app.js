@@ -14,6 +14,7 @@ const orderRouter = require('./routes/orderRoutes.js');
 const reviewRouter = require('./routes/reviewRoutes.js');
 const paymentRouter = require('./routes/paymentRoutes');
 const AppError = require('./utils/AppError');
+const cache = require('./utils/cache.js');
 
 const app = express();
 
