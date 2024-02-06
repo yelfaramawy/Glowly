@@ -34,6 +34,7 @@ Glowly is a feature-rich e-commerce platform built with Node.js and MongoDB, des
 - **Product Recommendations**: Provide bestselling product recommendations.
 - **Payment Integration**: Seamless integration with Stripe for secure online payments.
 - **Admin Dashboard**: An intuitive dashboard for the admin to manage users, orders, products, and reviews with ease.
+- **Caching with Redis**: Utilizes Redis for caching frequently accessed data, improving performance and reducing database load.
 
 ## 🛠️ Installation
 
@@ -60,6 +61,7 @@ Glowly is a feature-rich e-commerce platform built with Node.js and MongoDB, des
 - Mongoose
 - JWT (JSON Web Tokens)
 - Stripe for payment processing
+- Redis for caching
 
 ## Contributing 🤝
 
