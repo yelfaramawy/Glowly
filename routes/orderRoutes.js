@@ -1,13 +1,14 @@
 const express = require('express');
 const authController = require('../controllers/authController');
 const orderController = require('../controllers/orderController');
+const cleanCache = require('../utils/cache');
 
 const router = express.Router();
 
 // Protect all
 router.use(authController.protect);
 
-router.post('/', orderController.createOrder);
+router.post('/', cleanCache, orderController.createOrder);
 router.get('/my-orders', orderController.getMyOrders);
 router.patch('/cancel/:orderId', orderController.cancelOrder);
 

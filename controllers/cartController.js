@@ -88,7 +88,9 @@ exports.removeFromCart = catchAsync(async (req, res, next) => {
 });
 
 exports.getMyCart = catchAsync(async (req, res, next) => {
-  const cart = await Cart.findOne({ user: req.user.id });
+  const cart = await Cart.findOne({ user: req.user.id }).cache({
+    key: req.user.id,
+  });
 
   if (!cart) return next(new AppError('There is no cart for this user', 404));
   // console.log(cart.items[0].product.price);

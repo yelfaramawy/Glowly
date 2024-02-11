@@ -4,8 +4,8 @@ const Product = require('../models/productModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const APIFeatures = require('../utils/apiFeatures');
+const cache = require('../utils/cache');
 const Payment = require('../models/paymentModel');
-const util = require('util');
 
 exports.createOrder = catchAsync(async (req, res, next) => {
   const { phone, shippingAddress, paymentMethod, status } = req.body;
@@ -35,6 +35,9 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     // status
   });
 
+  // Delete the hash related to that user
+  // cache.clearHash(req.user.id);
+
   //? If the payment method is cash on delivery create payment document
   if (order.paymentMethod === 'cash on delivery') {
     const payment = await Payment.create({
@@ -59,45 +62,13 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.getMyOrders = catchAsync(async (req, res, next) => {
-//   const redis = require('ioredis');
-//   const redisUrl = 'redis://127.0.0.1:6379';
-//   const client = redis.createClient(redisUrl);
-//   // overwrite client.get to return a promise
-//   client.get = util.promisify(client.get);
-
-//   // Search for orders in cache
-//   let cachedOrders = await client.get(req.user.id);
-//   // console.log(cachedOrders);
-//   cachedOrders = JSON.parse(cachedOrders);
-//   // console.log(cachedOrders);
-
-//   // if no cached orders found, respond to server from MongoDB, then update cache
-//   if (!cachedOrders) {
-//     console.log('Serving from MONGODB');
-//     cachedOrders = await Order.find({ user: req.user.id });
-//   } else {
-//     console.log('SERVING FROM CACHE');
-//   }
-
-//   if (cachedOrders.length === 0)
-//     return next(new AppError("You don't have any orders yet", 400));
-
-//   res.status(200).json({
-//     status: 'success',
-//     results: cachedOrders.length,
-//     data: {
-//       orders: cachedOrders,
-//     },
-//   });
-//   client.set(req.user.id, JSON.stringify(cachedOrders));
-// });
-
 exports.getMyOrders = catchAsync(async (req, res, next) => {
-  const orders = await Order.find({ user: req.user.id }).cache();
+  const orders = await Order.find({ user: req.user.id }).cache({
+    key: req.user.id,
+  });
 
-  // if (orders.length === 0)
-  //   return next(new AppError("You don't have any orders yet", 400));
+  if (orders.length === 0)
+    return next(new AppError("You don't have any orders yet", 400));
 
   res.status(200).json({
     status: 'success',
